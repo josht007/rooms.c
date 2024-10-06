@@ -72,36 +72,31 @@ int init_reading_collection(struct ReadingCollection *readings) {
 int add_reading(struct ReadingCollection *readings, struct Reading reading) {
 	
 	//checks if the list is full
-	if(readings->size >= MAX_STR){
+	if (readings->size >= MAX_READINGS) {
 		return ERR_MAX_CAPACITY;
-	}
+    }
 	
 	//if the collection is empty, there is nothing to compare
 	
 	
-	if (readings->size == 0){
-		readings->elements[0] = reading;
-		readings->size += 1;
-	}else{
-		int i = 0;
-		//compare it to the string
-		for (i = 0; i <readings->size; i++){
-			if (strncmp(reading.room, readings->elements[i].room, MAX_STR) < 0){
-				break;
-		}
+	//compare it to the string
+	int i;
+    for (i = 0; i < readings->size; i++) {
+        if (strncmp(reading.room, readings->elements[i].room, MAX_STR) < 0) {
+            break;
+        }
+    }
 		
-		for (int j = readings->size; j > i; j--) {
-        	readings->elements[j] = readings->elements[j - 1];
-    	}
+		
+	for (int j = readings->size; j > i; j--) {
+        readings->elements[j] = readings->elements[j - 1];
+    }
     	
-		readings->elements[i + 1] = reading; 
-		readings->size += 1;
-		return ERR_OK;
+	readings->elements[i] = reading;
+    readings->size++;
+	return ERR_OK;
 		
-	}
 	
-    return ERR_OK;
-	}
 }
 
 /*
@@ -121,4 +116,9 @@ int print_reading_collection(struct ReadingCollection *readings) {
     }
     return ERR_OK;
 
+}
+
+//Side Quest Function
+int remove_duplicates(struct ReadingCollection *readings) {
+    return ERR_NOT_IMPLEMENTED;
 }
